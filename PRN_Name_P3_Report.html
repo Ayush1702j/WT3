@@ -228,9 +228,9 @@
     <table class="meta-table">
       <tr>
         <td class="label">Student Name</td>
-        <td><strong>Ayush</strong></td>
+        <td><strong>Ayush H Jugseniye</strong></td>
         <td class="label">PRN / Roll No.</td>
-        <td><strong>2304362</strong></td>
+        <td><strong>202401040128</strong></td>
       </tr>
       <tr>
         <td class="label">Division / Batch</td>
@@ -247,18 +247,12 @@
         <td colspan="3"><strong>Online Course Enrollment Portal with Real-Time Validation</strong></td>
       </tr>
       <tr>
-        <td class="label">Lab Hours / Marks</td>
-        <td>8 Hours / 10 Marks</td>
-        <td class="label">Date of Submission</td>
-        <td>27-10-2026</td>
+        
+      <tr>
+        
       </tr>
       <tr>
-        <td class="label">Live Deployed URL</td>
-        <td colspan="3"><code>http://localhost:8081/course-enrollment/</code> (Also configured for Vercel / Netlify / GitHub Pages)</td>
-      </tr>
-      <tr>
-        <td class="label">GitHub Repository</td>
-        <td colspan="3"><code>https://github.com/Ayush/wt-react-course-enrollment</code></td>
+        
       </tr>
     </table>
 
@@ -342,9 +336,7 @@
           <td>Design tokens, responsive CSS Grid layout, real-time error animations (<code>shake</code>), and print media rules.</td>
         </tr>
         <tr>
-          <td><strong>Web Storage API</strong></td>
-          <td>Native</td>
-          <td>Offline persistence of enrolled student JSON records across browser reloads via <code>localStorage</code>.</td>
+          
         </tr>
         <tr>
           <td><strong>Apache Tomcat</strong></td>
@@ -554,7 +546,9 @@ export const validateField = (name, value, allValues = {}) => {
     <div class="screenshot-container">
       <img src="screenshots/screenshot_valid_overview.png" class="report-screenshot" alt="Valid State Overview" onerror="this.style.display='none'; document.getElementById('placeholder1').style.display='block';">
       <div id="placeholder1" class="screenshot-placeholder">
-        [ Attach Screenshot 1: Portal overview showing all inputs valid, green checkmarks, dynamic course preview, applied coupon, and active Submit button ]
+         <img src="screenshots/p1.png"
+         alt="Page running from Apache Tomcat"
+         class="report-screenshot">
       </div>
       <div class="screenshot-caption">Figure 5.1: Valid enrollment application state with green indicators, dynamic fee quotation, and enabled submission</div>
     </div>
@@ -563,7 +557,9 @@ export const validateField = (name, value, allValues = {}) => {
     <div class="screenshot-container">
       <img src="screenshots/screenshot_invalid_errors.png" class="report-screenshot" alt="Validation Errors" onerror="this.style.display='none'; document.getElementById('placeholder2').style.display='block';">
       <div id="placeholder2" class="screenshot-placeholder">
-        [ Attach Screenshot 2: Real-time red validation highlights and descriptive error messages for invalid name, PRN, email, phone, and disabled submit button ]
+       <img src="screenshots/p2.png"
+         alt="Page running from Apache Tomcat"
+         class="report-screenshot">
       </div>
       <div class="screenshot-caption">Figure 5.2: Real-time validation feedback flagging invalid inputs with ruby-red borders and specific error descriptions</div>
     </div>
@@ -572,7 +568,9 @@ export const validateField = (name, value, allValues = {}) => {
     <div class="screenshot-container">
       <img src="screenshots/screenshot_confirmation_modal.png" class="report-screenshot" alt="Confirmation Receipt & Deployment" onerror="this.style.display='none'; document.getElementById('placeholder3').style.display='block';">
       <div id="placeholder3" class="screenshot-placeholder">
-        [ Attach Screenshot 3: Admission receipt modal displaying Enrollment ID, student summary, print receipt trigger, and live deployed URL in browser bar ]
+       <img src="screenshots/p3.png"
+         alt="Page running from Apache Tomcat"
+         class="report-screenshot">
       </div>
       <div class="screenshot-caption">Figure 5.3: Admission receipt confirmation modal and live deployment serving from <code>http://localhost:8081/course-enrollment/</code></div>
     </div>
