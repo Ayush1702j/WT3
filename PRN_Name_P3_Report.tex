@@ -1,0 +1,452 @@
+\documentclass[11pt,a4paper]{article}
+
+% -----------------------------------------------------------------------------
+% Required Packages
+% -----------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{caption}
+\usepackage{titlesec}
+
+% -----------------------------------------------------------------------------
+% Color Palette & Custom Styling
+% -----------------------------------------------------------------------------
+\definecolor{collegeblue}{RGB}{30, 58, 138}
+\definecolor{secondaryblue}{RGB}{30, 41, 59}
+\definecolor{accentamber}{RGB}{245, 158, 11}
+\definecolor{codebg}{RGB}{248, 250, 252}
+\definecolor{codecomment}{RGB}{100, 116, 139}
+\definecolor{codekeyword}{RGB}{219, 39, 119}
+\definecolor{codestring}{RGB}{16, 185, 129}
+\definecolor{lightborder}{RGB}{226, 232, 240}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=collegeblue,
+    urlcolor=accentamber,
+    citecolor=secondaryblue
+}
+
+% Section title styling
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{collegeblue}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{secondaryblue}}{\thesubsection}{1em}{}
+
+% Header and Footer setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textbf{Web Technology (2304362L)} --- Practical No. 3}
+\fancyhead[R]{\small AY 2025--26}
+\fancyfoot[L]{\small MIT Academy of Engineering, Pune}
+\fancyfoot[R]{\small Page \thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+% -----------------------------------------------------------------------------
+% Listings Setup (JSX / React / CSS)
+% -----------------------------------------------------------------------------
+\lstset{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{codecomment}\itshape,
+    frame=single,
+    rulecolor=\color{lightborder},
+    keywordstyle=\color{codekeyword}\bfseries,
+    stringstyle=\color{codestring},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=8pt,
+    showstringspaces=false,
+    tabsize=2,
+    xleftmargin=12pt,
+    framexleftmargin=8pt
+}
+
+% -----------------------------------------------------------------------------
+% Document Body
+% -----------------------------------------------------------------------------
+\begin{document}
+
+% -----------------------------------------------------------------------------
+% TITLE / COVER PAGE
+% -----------------------------------------------------------------------------
+\begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+    
+    {\Large \textbf{MIT ACADEMY OF ENGINEERING, PUNE}}\\[0.2cm]
+    {\large (An Autonomous Institute Affiliated to Savitribai Phule Pune University)}\\[0.2cm]
+    {\textbf{School of Computer Engineering}}\\[1.2cm]
+    
+    \begin{tcolorbox}[colback=collegeblue,colframe=collegeblue,arc=3mm,width=\textwidth,halign=center]
+        \vspace{0.3cm}
+        {\LARGE \color{white} \textbf{LABORATORY REPORT}}\\[0.3cm]
+        {\large \color{accentamber} \textbf{Course: Web Technology (2304362L) | T.Y. B.Tech | AY 2025--26}}
+        \vspace{0.3cm}
+    \end{tcolorbox}
+    
+    \vspace{1.2cm}
+    
+    {\LARGE \textbf{Practical No. 3}}\\[0.3cm]
+    {\huge \bfseries \color{collegeblue} Client-Side Form Validation Application}\\[0.2cm]
+    {\Large \textbf{using ReactJS Functional Components \& Hooks}}\\[0.4cm]
+    {\textit{Topic: Online Course Enrollment Portal with Dynamic Fee Quotation}}\\[1.5cm]
+
+    \begin{minipage}{0.85\textwidth}
+        \renewcommand{\arraystretch}{1.5}
+        \begin{tabular}{|p{4.2cm}|p{8.5cm}|}
+            \hline
+            \textbf{Student Name} & Ayush \\ \hline
+            \textbf{PRN / Roll No.} & 2304362 \\ \hline
+            \textbf{Division / Batch} & T.Y. B.Tech Computer Engineering (Batch B) \\ \hline
+            \textbf{Course Outcome} & CO2: Front-End JavaScript Frameworks (ReactJS) \\ \hline
+            \textbf{Lab Hours / Marks} & 8 Hours / 10 Marks \\ \hline
+            \textbf{Date of Submission} & 27 / 10 / 2026 \\ \hline
+            \textbf{Live Deployed URL} & \url{http://localhost:8081/course-enrollment/} \\ \hline
+            \textbf{GitHub Repository} & \url{https://github.com/Ayush/wt-react-course-enrollment} \\ \hline
+        \end{tabular}
+    \end{minipage}
+
+    \vfill
+    {\small \textbf{Academic Year 2025--26}}\\[0.2cm]
+    {\footnotesize School of Computer Engineering, MIT Academy of Engineering, Alandi (D.), Pune --- 412105}
+\end{titlepage}
+
+\newpage
+
+% -----------------------------------------------------------------------------
+% SECTION 1: AIM & PROBLEM STATEMENT
+% -----------------------------------------------------------------------------
+\section{Aim and Problem Statement}
+
+\subsection{Aim}
+To design, develop, and deploy a responsive, accessible ReactJS web application that demonstrates real-time client-side form validation, controlled inputs using React hooks (\texttt{useState}, \texttt{useEffect}, \texttt{useMemo}), modular functional components with props, dynamic fee calculation, and disabled submission states until all validation criteria are satisfied.
+
+\subsection{Problem Statement in Own Words}
+Online academic and certification portals require rigorous client-side input validation to guarantee data integrity, eliminate faulty enrollment submissions, and provide prompt visual feedback to applicants before initiating tuition payments. The specific challenges implemented are:
+\begin{enumerate}
+    \item \textbf{Reusable Functional Components with Props}: Structuring the application into cohesive, decoupled components (\texttt{<FormField />}, \texttt{<SelectField />}, \texttt{<CoursePreview />}, \texttt{<SummaryCard />}, \texttt{<EnrollmentList />}, \texttt{<ConfirmationModal />}) communicating via strongly-typed props.
+    \item \textbf{State Management via React Hooks}: Managing form data, validation errors, and field touch states using \texttt{useState} and synchronized controlled inputs.
+    \item \textbf{Real-Time Multi-Tier Validation}: Evaluating input fields on both change and blur events (validating regex patterns for names, PRN format, RFC email standards, 10-digit Indian phone numbers, and UPI handles).
+    \item \textbf{Controlled Submission Trigger}: Dynamically evaluating form validity and keeping the submit button disabled until every input passes validation.
+    \item \textbf{Dynamic Price Computation \& Coupon Logic}: Recalculating base tuition, scholarship discounts (e.g., \texttt{STUDENT50}), and net payable amounts via \texttt{useMemo} and \texttt{useEffect}.
+    \item \textbf{Production Deployment}: Bundling optimized static assets using Vite (configured with \texttt{base: './'}) deployed on Apache Tomcat and cloud hosting platforms.
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+% SECTION 2: SYSTEM ARCHITECTURE & DESIGN
+% -----------------------------------------------------------------------------
+\section{System Architecture and Design}
+
+\subsection{Component Structure and Data Flow}
+The application follows unidirectional data flow where the root component (\texttt{<App />}) coordinates state and passes handler callbacks to children:
+
+\begin{figure}[htbp]
+\centering
+\begin{tcolorbox}[colback=codebg,colframe=collegeblue,arc=2mm,title=\textbf{Figure 1: React Component Hierarchy and Props Data Flow}]
+\small
+\begin{verbatim}
++-----------------------------------------------------------------------+
+|                         Root <App /> Component                        |
+| State: formData, errors, touched, appliedCoupon, enrollments[]        |
++-----------------------------------------------------------------------+
+        |                                       |
+        v (props: enrollmentCount)              v (props: formData, errors, handlers)
++-----------------------+              +--------------------------------+
+|       <Navbar />      |              |      Enrollment Form View      |
+| - Branding & CO2 badge|              |  - <FormField /> (Name, PRN)   |
+| - Live enrolled count |              |  - <SelectField /> (Course)    |
++-----------------------+              |  - <CoursePreview /> (Syllabus)|
+                                       |  - <FormField /> (Email, Phone)|
+                                       |  - Payment Mode & UPI Field    |
+                                       +--------------------------------+
+                                                        |
+                                       +--------------------------------+
+                                       |         <SummaryCard />        |
+                                       | - Live tuition fee calculation |
+                                       | - Coupon code validation       |
+                                       | - Disabled submit button       |
+                                       +--------------------------------+
+                                                        | (On Valid Submit)
+                                                        v
++-----------------------------------------------------------------------+
+|          <ConfirmationModal />  &  <EnrollmentList /> Directory       |
+| - Official admission receipt with Enrollment ID and Print action      |
+| - Interactive table synced with browser LocalStorage                  |
++-----------------------------------------------------------------------+
+\end{verbatim}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{Technologies Used}
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{l p{3.2cm} X}
+\toprule
+\textbf{Technology} & \textbf{Version} & \textbf{Role in Practical No. 3} \\
+\midrule
+\textbf{ReactJS} & 18.3.1 & Core UI library; functional components, hooks (\texttt{useState}, \texttt{useEffect}, \texttt{useMemo}), controlled inputs. \\
+\textbf{Vite} & 5.3.4 & Build tool and local development server providing instant HMR and optimized minified production bundling. \\
+\textbf{CSS3} & Modern Standards & Responsive 2-column grid, validation states (\texttt{.has-error}, \texttt{.has-success}), shake animations, print media rules. \\
+\textbf{Web Storage API} & Native & LocalStorage persistence for saving submitted student records across reloads. \\
+\textbf{Apache Tomcat} & 10.0.23 & Production web server hosting the deployed build on port 8081 (\url{http://localhost:8081/course-enrollment/}). \\
+\bottomrule
+\end{tabularx}
+\caption{Technologies Used in Practical No. 3}
+\end{table}
+
+\newpage
+
+% -----------------------------------------------------------------------------
+% SECTION 3: KEY IMPLEMENTATION & CODE EXPLANATION
+% -----------------------------------------------------------------------------
+\section{Implementation and Key Code Explanation}
+
+\subsection{State Management and Validation Hooks (\texttt{src/App.jsx})}
+The root application manages controlled form values and executes real-time validation upon state modification:
+
+\begin{lstlisting}[language=JavaScript, caption={State Hooks and Form Validity Memo (src/App.jsx)}]
+// Controlled Form State
+const [formData, setFormData] = useState({
+  fullName: '',
+  prn: '',
+  email: '',
+  phone: '',
+  courseId: '',
+  academicYear: '',
+  batchSlot: '',
+  paymentMethod: 'upi',
+  upiId: '',
+  agreePrereq: false,
+  agreeTerms: false
+});
+
+// Real-Time Form Validation Effect: Triggered on input change
+useEffect(() => {
+  const currentErrors = validateAll(formData);
+  setErrors(currentErrors);
+}, [formData]);
+
+// Submit Button Disabled Guard: Ensures zero errors exist
+const isFormValid = useMemo(() => {
+  const currentErrors = validateAll(formData);
+  return Object.keys(currentErrors).length === 0;
+}, [formData]);
+\end{lstlisting}
+
+\subsection{Reusable Functional Component with Props (\texttt{src/components/FormField.jsx})}
+Props are destructured to render controlled inputs, real-time error messages, and accessibility attributes:
+
+\begin{lstlisting}[language=JavaScript, caption={Reusable FormField Component (src/components/FormField.jsx)}]
+export default function FormField({
+  id, name, label, type = 'text', value, placeholder,
+  onChange, onBlur, error, touched, required = false, helperText
+}) {
+  const isInvalid = Boolean(touched && error);
+  const isValid = Boolean(touched && !error && value);
+
+  return (
+    <div className={`form-group ${isInvalid ? 'has-error' : ''} ${isValid ? 'has-success' : ''}`}>
+      <label htmlFor={id} className="form-label">
+        {label} {required && <span className="req-star">*</span>}
+      </label>
+      <div className="input-wrapper">
+        <input
+          id={id}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          aria-invalid={isInvalid}
+          className="form-control"
+          placeholder={placeholder}
+        />
+        {/* Real-Time Status Icon */}
+        <div className="status-icon">
+          {isInvalid && <span className="icon-error">⚠️</span>}
+          {isValid && <span className="icon-success">✓</span>}
+        </div>
+      </div>
+      {isInvalid && <p className="error-text" role="alert">{error}</p>}
+    </div>
+  );
+}
+\end{lstlisting}
+
+\subsection{Client-Side Validation Engine (\texttt{src/utils/validation.js})}
+The validation engine validates inputs against regex patterns and constraints:
+
+\begin{lstlisting}[language=JavaScript, caption={Validation Rules Engine (src/utils/validation.js)}]
+export const validateField = (name, value, allValues = {}) => {
+  switch (name) {
+    case 'fullName':
+      if (!value.trim()) return 'Full Name is required.';
+      if (!/^[A-Za-z\s]{3,50}$/.test(value.trim()))
+        return 'Full Name must contain only alphabets and spaces (3 to 50 chars).';
+      return '';
+
+    case 'prn':
+      if (!value.trim()) return 'PRN / Roll Number is required.';
+      if (!/^[A-Za-z0-9]{7,10}$/.test(value.trim()))
+        return 'PRN must be 7 to 10 alphanumeric characters.';
+      return '';
+
+    case 'email':
+      if (!value.trim()) return 'Email address is required.';
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value.trim()))
+        return 'Enter a valid email address (e.g., student@mitaoe.ac.in).';
+      return '';
+
+    case 'phone':
+      if (!/^[6-9]\d{9}$/.test(value.trim()))
+        return 'Enter valid 10-digit Indian mobile starting with 6, 7, 8, or 9.';
+      return '';
+
+    case 'upiId':
+      if (allValues.paymentMethod === 'upi') {
+        if (!/^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/.test(value.trim()))
+          return 'Enter valid UPI Virtual Payment Address (e.g. user@bank).';
+      }
+      return '';
+
+    default:
+      return '';
+  }
+};
+\end{lstlisting}
+
+\newpage
+
+% -----------------------------------------------------------------------------
+% SECTION 4: TESTING & VERIFICATION MATRIX
+% -----------------------------------------------------------------------------
+\section{Testing and Test Cases}
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{l p{2.8cm} p{3.2cm} X c}
+\toprule
+\textbf{Test ID} & \textbf{Scenario} & \textbf{Test Input} & \textbf{Expected Outcome} & \textbf{Status} \\
+\midrule
+\textbf{TC-01} & Valid Form Submission & All valid fields, course selected & Submit button activates; admission receipt modal displayed & \textbf{PASS} \\
+\textbf{TC-02} & Incomplete Form Submit Lock & Empty or untouched form & Submit button is disabled (\texttt{cursor: not-allowed}) & \textbf{PASS} \\
+\textbf{TC-03} & Name with Numbers & \texttt{Ayush123} & Error: "Alphabets and spaces only (3 to 50 chars)" & \textbf{PASS} \\
+\textbf{TC-04} & Invalid PRN Format & \texttt{12345} (5 digits) & Error: "PRN must be 7 to 10 alphanumeric characters" & \textbf{PASS} \\
+\textbf{TC-05} & Invalid Email Syntax & \texttt{ayush\_gmail.com} & Error: "Enter a valid email address" & \textbf{PASS} \\
+\textbf{TC-06} & Invalid Mobile Number & \texttt{5551234567} (starts with 5) & Error: "Enter valid 10-digit mobile starting with 6-9" & \textbf{PASS} \\
+\textbf{TC-07} & Coupon Code Application & \texttt{STUDENT50} & Applies 50\% discount immediately; net tuition updated & \textbf{PASS} \\
+\textbf{TC-08} & Session LocalStorage & Submitting & refreshing page & Student record reloads dynamically from \texttt{localStorage} & \textbf{PASS} \\
+\bottomrule
+\end{tabularx}
+\caption{System Test Execution Summary}
+\end{table}
+
+% -----------------------------------------------------------------------------
+% SECTION 5: OUTPUT SCREENSHOTS
+% -----------------------------------------------------------------------------
+\section{Output Screenshots}
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{screenshots/screenshot_valid_overview.png}{%
+    \includegraphics[width=0.75\textwidth]{screenshots/screenshot_valid_overview.png}
+}{%
+    \begin{tcolorbox}[colback=codebg,colframe=lightborder,arc=2mm,height=5.2cm,valign=center,halign=center]
+        \large \textbf{[ Screenshot 1: Application Portal Overview \& Valid State with Enabled Submit ]}\\[0.3cm]
+        \normalsize \textit{Attach screenshot showing all valid inputs, green checkmarks, dynamic course preview, applied coupon, and enabled Submit button}
+    \end{tcolorbox}
+}
+\caption{Main Course Enrollment Portal in Valid State with Enabled Submission}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{screenshots/screenshot_invalid_errors.png}{%
+    \includegraphics[width=0.75\textwidth]{screenshots/screenshot_invalid_errors.png}
+}{%
+    \begin{tcolorbox}[colback=codebg,colframe=lightborder,arc=2mm,height=5.2cm,valign=center,halign=center]
+        \large \textbf{[ Screenshot 2: Real-Time Input Validation Error Messages (Invalid Cases) ]}\\[0.3cm]
+        \normalsize \textit{Attach screenshot showing red validation borders and inline error messages for invalid name, PRN, email, phone, and disabled submit button}
+    \end{tcolorbox}
+}
+\caption{Real-Time Validation Feedback Flagging Invalid Inputs and Disabled Submit Trigger}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{screenshots/screenshot_confirmation_modal.png}{%
+    \includegraphics[width=0.75\textwidth]{screenshots/screenshot_confirmation_modal.png}
+}{%
+    \begin{tcolorbox}[colback=codebg,colframe=lightborder,arc=2mm,height=5cm,valign=center,halign=center]
+        \large \textbf{[ Screenshot 3: Official Confirmation Modal Receipt \& Live Deployment ]}\\[0.3cm]
+        \normalsize \textit{Attach screenshot showing the admission confirmation modal receipt with Enrollment ID and live URL in browser address bar}
+    \end{tcolorbox}
+}
+\caption{Official Enrollment Receipt Modal and Live Tomcat / Vercel Deployment}
+\end{figure}
+
+\newpage
+
+% -----------------------------------------------------------------------------
+% SECTION 6: CONCLUSION & LEARNINGS
+% -----------------------------------------------------------------------------
+\section{Testing and Conclusion}
+
+\subsection{What Works}
+\begin{itemize}
+    \item \textbf{React 18 Component Architecture}: Reusable functional components communicating via props.
+    \item \textbf{Real-Time Client-Side Validation}: Real-time validation on change and blur events with instantaneous feedback.
+    \item \textbf{Disabled Submit Guard}: Prevents premature or invalid submissions until every field conforms to validation criteria.
+    \item \textbf{Dynamic Price Computation}: Real-time coupon discounts (\texttt{STUDENT50}, \texttt{EARLYBIRD20}) recalculating net tuition.
+    \item \textbf{Data Persistence}: Synchronized with browser \texttt{localStorage} to preserve active enrollments across reloads.
+    \item \textbf{Multi-Platform Deployment}: Configured for deployment on Apache Tomcat, Vercel, Netlify, and GitHub Pages.
+\end{itemize}
+
+\subsection{Limitations}
+\begin{itemize}
+    \item \textbf{Client-Side Storage}: Records reside in browser memory and \texttt{localStorage}; production systems require backend API integration with an enterprise database.
+    \item \textbf{Payment Gateway}: Payment processing is simulated on the client rather than integrating a live banking webhook.
+\end{itemize}
+
+\subsection{What I Learned}
+\begin{itemize}
+    \item Learned how to construct controlled components in React with two-way state binding.
+    \item Mastered combining \texttt{useState}, \texttt{useEffect}, and \texttt{useMemo} hooks for optimal rendering performance during form validation.
+    \item Understood modern frontend build workflows using Vite with relative asset routing.
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+% SECTION 7: AI USE DECLARATION (Mandatory Table)
+% -----------------------------------------------------------------------------
+\section{AI Use Declaration}
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\textwidth}{|p{4.5cm}|X|}
+\hline
+\textbf{AI tool and prompt used} & \textbf{Antigravity AI (Gemini 3.8)}\par
+\textit{Prompt:} ``Design, develop and deploy an Online Course Enrollment Form using ReactJS functional components and hooks with real-time validation, dynamic fee calculation, and disabled submit button until valid.'' \\ \hline
+\textbf{One output you checked and how} & Checked the real-time form validity logic (\texttt{isFormValid} memo) by inspecting whether typing an invalid character in the email or PRN field immediately toggled the submit button state to disabled and back to active when corrected. \\ \hline
+\textbf{One thing you corrected or rejected, and why} & Corrected the validation behavior so error messages do not aggressively show on fresh, untouched inputs upon initial page load; added a \texttt{touched} state map to only display error messages once a user has interacted with or blurred an input field. \\ \hline
+\end{tabularx}
+\caption{Mandatory AI Use Declaration Table}
+\end{table}
+
+\end{document}

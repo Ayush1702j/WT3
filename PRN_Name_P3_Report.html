@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Practical 3 Report - Web Technology (2304362L) - ReactJS Form Validation</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #222;
+      line-height: 1.5;
+      font-size: 11pt;
+      background: #fdfdfd;
+      margin: 0;
+      padding: 20px;
+    }
+    .report-container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .header-block {
+      text-align: center;
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+    .header-block h3 {
+      margin: 0 0 5px 0;
+      font-size: 15pt;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .header-block h4 {
+      margin: 0 0 5px 0;
+      font-size: 12pt;
+      color: #555;
+      font-weight: 600;
+    }
+    .header-block h2 {
+      margin: 12px 0 0 0;
+      font-size: 16pt;
+      color: #1e3a8a;
+      font-weight: 800;
+    }
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+      font-size: 10pt;
+    }
+    .meta-table td {
+      padding: 8px 12px;
+      border: 1px solid #d5d9d9;
+    }
+    .meta-table td.label {
+      background: #f8fafc;
+      font-weight: bold;
+      width: 25%;
+      color: #333;
+    }
+    h2.section-title {
+      font-size: 13pt;
+      color: #1e3a8a;
+      border-left: 4px solid #f59e0b;
+      padding-left: 10px;
+      margin-top: 25px;
+      margin-bottom: 12px;
+    }
+    h3.sub-title {
+      font-size: 11pt;
+      color: #1e293b;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+    p, li {
+      font-size: 10.5pt;
+      color: #333;
+    }
+    ul, ol {
+      margin: 6px 0 12px 20px;
+    }
+    pre {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 9.5pt;
+      overflow-x: auto;
+      font-family: Consolas, Monaco, monospace;
+      line-height: 1.4;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 9.5pt;
+      color: #b91c1c;
+    }
+    .table-custom {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 9.5pt;
+    }
+    .table-custom th, .table-custom td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .table-custom th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .table-custom tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .badge-pass {
+      background: #dcfce7;
+      color: #166534;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* User Requested Screenshot Styling */
+    .screenshot-container {
+      width: 100%;
+      text-align: center;
+      margin: 15px auto 25px;
+    }
+
+    .report-screenshot {
+      width: 75%;
+      max-width: 650px;
+      height: auto;
+      border: 1px solid #ccc;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .screenshot-placeholder {
+      background: #f8fafc;
+      border: 2px dashed #94a3b8;
+      padding: 35px 20px;
+      text-align: center;
+      color: #64748b;
+      border-radius: 6px;
+      margin: 10px auto;
+      width: 75%;
+      max-width: 650px;
+      font-size: 10pt;
+    }
+
+    .screenshot-caption {
+      font-size: 9pt;
+      color: #555;
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .report-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .report-screenshot {
+        width: 75%;
+        max-width: 650px;
+        height: auto;
+      }
+      .no-print {
+        display: none;
+      }
+    }
+
+    .print-button {
+      background: #1e3a8a;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 11pt;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+    .print-button:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-button no-print" onclick="window.print()">🖨️ Print / Save as PDF (Ctrl + P)</button>
+
+  <div class="report-container">
+    <!-- Header Block -->
+    <div class="header-block">
+      <h3>MIT Academy of Engineering, Pune</h3>
+      <h4>(An Autonomous Institute Affiliated to Savitribai Phule Pune University)</h4>
+      <h4>School of Computer Engineering</h4>
+      <h2>PRACTICAL NO. 3 LAB REPORT</h2>
+      <p style="margin: 5px 0 0 0; color: #475569; font-weight: 600;">Course: Web Technology (2304362L) | T.Y. B.Tech | AY 2025-26</p>
+    </div>
+
+    <!-- Student Metadata Table -->
+    <table class="meta-table">
+      <tr>
+        <td class="label">Student Name</td>
+        <td><strong>Ayush</strong></td>
+        <td class="label">PRN / Roll No.</td>
+        <td><strong>2304362</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Division / Batch</td>
+        <td>T.Y. B.Tech Computer Engineering (Batch B)</td>
+        <td class="label">Course Outcome</td>
+        <td><strong>CO2</strong> (ReactJS Front-End Frameworks)</td>
+      </tr>
+      <tr>
+        <td class="label">Practical Title</td>
+        <td colspan="3"><strong>Practical No. 3: Front-End JavaScript Frameworks: ReactJS</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Selected Topic</td>
+        <td colspan="3"><strong>Online Course Enrollment Portal with Real-Time Validation</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Lab Hours / Marks</td>
+        <td>8 Hours / 10 Marks</td>
+        <td class="label">Date of Submission</td>
+        <td>27-10-2026</td>
+      </tr>
+      <tr>
+        <td class="label">Live Deployed URL</td>
+        <td colspan="3"><code>http://localhost:8081/course-enrollment/</code> (Also configured for Vercel / Netlify / GitHub Pages)</td>
+      </tr>
+      <tr>
+        <td class="label">GitHub Repository</td>
+        <td colspan="3"><code>https://github.com/Ayush/wt-react-course-enrollment</code></td>
+      </tr>
+    </table>
+
+    <!-- Section 1 -->
+    <h2 class="section-title">1. Aim and Problem Statement</h2>
+    <h3 class="sub-title">1.1 Aim</h3>
+    <p>
+      To design, develop, and deploy a responsive, accessible ReactJS web application that demonstrates real-time client-side form validation, controlled inputs using React hooks (<code>useState</code>, <code>useEffect</code>, <code>useMemo</code>), modular functional components with props, dynamic fee calculation, and disabled submission states until all validation criteria are satisfied.
+    </p>
+
+    <h3 class="sub-title">1.2 Problem Statement in Own Words</h3>
+    <p>
+      Online education portals require robust, responsive client-side form validation to ensure data accuracy, prevent invalid enrollment submissions, and give immediate feedback to applicants before processing fee payments. The specific challenges addressed in this implementation are:
+    </p>
+    <ul>
+      <li><strong>Modular Component Architecture</strong>: Decomposing the interface into independent, reusable functional components (<code>&lt;FormField /&gt;</code>, <code>&lt;SelectField /&gt;</code>, <code>&lt;CoursePreview /&gt;</code>, <code>&lt;SummaryCard /&gt;</code>, <code>&lt;EnrollmentList /&gt;</code>, <code>&lt;ConfirmationModal /&gt;</code>).</li>
+      <li><strong>Controlled Inputs &amp; State Management</strong>: Managing all form inputs as single sources of truth using React state hooks (<code>useState</code>) without uncontrolled DOM side-effects.</li>
+      <li><strong>Real-Time Input Validation</strong>: Enforcing multi-tier validation rules (full name alphabet pattern, 7-10 digit PRN, RFC email format, 10-digit Indian phone, course selection, UPI VPA syntax, and mandatory checkboxes) evaluating on input change and blur events.</li>
+      <li><strong>Conditional Submission Control</strong>: Calculating whole-form validity dynamically and keeping the Submit button strictly disabled with visual cues until every validation check passes.</li>
+      <li><strong>Dynamic Fee &amp; Coupon Computation</strong>: Recalculating base fees, scholarship discounts (e.g. <code>STUDENT50</code>), and net payable amounts via <code>useMemo</code> and <code>useEffect</code>.</li>
+      <li><strong>Deployment Readiness</strong>: Compiling production-optimized assets with Vite (<code>base: './'</code>) for zero-configuration hosting on Netlify, Vercel, GitHub Pages, or local Tomcat.</li>
+    </ul>
+
+    <!-- Section 2 -->
+    <h2 class="section-title">2. Design and System Architecture</h2>
+    <h3 class="sub-title">2.1 Component Structure and Data Flow</h3>
+    <p>
+      The application adheres to unidirectional data flow where top-level state is maintained in the root <code>&lt;App /&gt;</code> component and passed down to children via explicit props. Events are bubbled up via handler callbacks.
+    </p>
+    <pre>
++-----------------------------------------------------------------------------------------+
+|                                    Root &lt;App /&gt; Component                               |
+|  State: formData, errors, touched, appliedCoupon, enrollments[], isSubmitting, toast   |
++-----------------------------------------------------------------------------------------+
+       |                                      |                                    |
+       v (props: enrollmentCount)             v (props: formData, errors, handlers)v (props)
++-------------------------+    +------------------------------------------+  +-------------------+
+|       &lt;Navbar /&gt;        |    |            Enrollment Form Card          |  |  &lt;SummaryCard /&gt;  |
+| - University branding   |    |  +------------------------------------+  |  | - Live fee quote  |
+| - CO2 outcome badge     |    |  | &lt;FormField /&gt; (Name, PRN, Email)  |  |  | - Coupon validator|
+| - Live enrollment count |    |  | &lt;SelectField /&gt; (Year, Course)     |  |  | - Disabled submit |
++-------------------------+    |  | &lt;CoursePreview /&gt; (Curriculum)     |  |  | - Reset trigger   |
+                               |  | &lt;SelectField /&gt; (Batch Slot)       |  |  +-------------------+
+                               |  | &lt;FormField /&gt; (UPI VPA Handle)     |  |
+                               |  | Compliance Checkboxes              |  |
+                               |  +------------------------------------+  |
+                               +------------------------------------------+
+                                                    |
+                                (On Valid Submit &amp; State Append)
+                                                    v
++-----------------------------------------------------------------------------------------+
+|                   &lt;ConfirmationModal /&gt;  &amp;  &lt;EnrollmentList /&gt; Directory                 |
+|  - Modal displays official admission receipt with generated Enrollment ID               |
+|  - Directory renders interactive session table synced with browser LocalStorage         |
++-----------------------------------------------------------------------------------------+
+    </pre>
+
+    <h3 class="sub-title">2.2 Technologies Used</h3>
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th>Technology</th>
+          <th>Version</th>
+          <th>Role in Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ReactJS</strong></td>
+          <td>18.3.1</td>
+          <td>Core front-end library; component-based UI, controlled inputs, hooks architecture.</td>
+        </tr>
+        <tr>
+          <td><strong>Vite</strong></td>
+          <td>5.3.4</td>
+          <td>Fast next-generation build tool and dev server with instant HMR and optimized production bundling.</td>
+        </tr>
+        <tr>
+          <td><strong>CSS3 Custom Properties</strong></td>
+          <td>Native</td>
+          <td>Design tokens, responsive CSS Grid layout, real-time error animations (<code>shake</code>), and print media rules.</td>
+        </tr>
+        <tr>
+          <td><strong>Web Storage API</strong></td>
+          <td>Native</td>
+          <td>Offline persistence of enrolled student JSON records across browser reloads via <code>localStorage</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Apache Tomcat</strong></td>
+          <td>10.0.23</td>
+          <td>Local production web server hosting the deployed build on port 8081.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- Section 3 -->
+    <h2 class="section-title">3. Implementation and Key Code Explanation</h2>
+
+    <h3 class="sub-title">3.1 Controlled Form State &amp; Validation Hooks (<code>App.jsx</code>)</h3>
+    <p>
+      State is managed with <code>useState</code>, and inputs are controlled by binding their <code>value</code> and <code>onChange</code> handlers:
+    </p>
+    <pre>
+// 1. Controlled Form Data State
+const [formData, setFormData] = useState({
+  fullName: '',
+  prn: '',
+  email: '',
+  phone: '',
+  courseId: '',
+  academicYear: '',
+  batchSlot: '',
+  paymentMethod: 'upi',
+  upiId: '',
+  agreePrereq: false,
+  agreeTerms: false
+});
+
+// 2. Real-Time Validation Effect: Runs whenever formData changes
+useEffect(() => {
+  const currentErrors = validateAll(formData);
+  setErrors(currentErrors);
+}, [formData]);
+
+// 3. Dynamic Form Validity Calculation (Enables/Disables Submit Button)
+const isFormValid = useMemo(() => {
+  const currentErrors = validateAll(formData);
+  return Object.keys(currentErrors).length === 0;
+}, [formData]);
+    </pre>
+
+    <h3 class="sub-title">3.2 Reusable <code>&lt;FormField /&gt;</code> Component with Props (<code>FormField.jsx</code>)</h3>
+    <p>
+      Demonstrates clean props destructuring, dynamic validation state classes, real-time SVG status icons, and accessibility tags:
+    </p>
+    <pre>
+export default function FormField({
+  id, name, label, type = 'text', value, placeholder,
+  onChange, onBlur, error, touched, required = false, helperText
+}) {
+  const isInvalid = Boolean(touched && error);
+  const isValid = Boolean(touched && !error && value);
+
+  return (
+    &lt;div className={`form-group ${isInvalid ? 'has-error' : ''} ${isValid ? 'has-success' : ''}`}&gt;
+      &lt;label htmlFor={id} className="form-label"&gt;
+        {label} {required && &lt;span className="req-star"&gt;*&lt;/span&gt;}
+      &lt;/label&gt;
+      &lt;div className="input-wrapper"&gt;
+        &lt;input
+          id={id}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          aria-invalid={isInvalid}
+          className="form-control"
+          placeholder={placeholder}
+        /&gt;
+        {/* Real-time status indicator */}
+        &lt;div className="status-icon"&gt;
+          {isInvalid && &lt;span className="icon-error"&gt;⚠️&lt;/span&gt;}
+          {isValid && &lt;span className="icon-success"&gt;✓&lt;/span&gt;}
+        &lt;/div&gt;
+      &lt;/div&gt;
+      {isInvalid && &lt;p className="error-text" role="alert"&gt;{error}&lt;/p&gt;}
+    &lt;/div&gt;
+  );
+}
+    </pre>
+
+    <h3 class="sub-title">3.3 Client-Side Validation Rules Engine (<code>validation.js</code>)</h3>
+    <pre>
+export const validateField = (name, value, allValues = {}) => {
+  switch (name) {
+    case 'fullName':
+      if (!value.trim()) return 'Full Name is required.';
+      if (!/^[A-Za-z\s]{3,50}$/.test(value.trim()))
+        return 'Full Name must contain only alphabets and spaces (3-50 chars).';
+      return '';
+
+    case 'prn':
+      if (!value.trim()) return 'PRN / Roll Number is required.';
+      if (!/^[A-Za-z0-9]{7,10}$/.test(value.trim()))
+        return 'PRN must be 7 to 10 alphanumeric characters.';
+      return '';
+
+    case 'email':
+      if (!value.trim()) return 'Email address is required.';
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value.trim()))
+        return 'Enter a valid email address (e.g. student@mitaoe.ac.in).';
+      return '';
+
+    case 'phone':
+      if (!/^[6-9]\d{9}$/.test(value.trim()))
+        return 'Enter valid 10-digit Indian mobile starting with 6, 7, 8, or 9.';
+      return '';
+
+    case 'upiId':
+      if (allValues.paymentMethod === 'upi') {
+        if (!/^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/.test(value.trim()))
+          return 'Enter valid UPI Virtual Payment Address (e.g. user@bank).';
+      }
+      return '';
+
+    default:
+      return '';
+  }
+};
+    </pre>
+
+    <!-- Section 4 -->
+    <h2 class="section-title">4. Testing Matrix</h2>
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th>Test ID</th>
+          <th>Scenario Tested</th>
+          <th>Input Given</th>
+          <th>Expected Behavior</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>TC-01</strong></td>
+          <td>Valid Form Submission</td>
+          <td>All fields valid, course selected, checkboxes checked</td>
+          <td>Submit button activates; on click, Confirmation receipt modal opens and record added to table</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-02</strong></td>
+          <td>Submit Disabled on Incomplete Form</td>
+          <td>Blank form or missing required fields</td>
+          <td>Submit button is disabled (<code>cursor: not-allowed</code>) with helper message</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-03</strong></td>
+          <td>Name with Numeric/Special Characters</td>
+          <td><code>Ayush123</code> or <code>Ayush@#</code></td>
+          <td>Displays red border: "Full Name must contain only alphabets and spaces (3-50 chars)"</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-04</strong></td>
+          <td>Invalid PRN Format</td>
+          <td><code>12345</code> (5 digits)</td>
+          <td>Displays red border: "PRN must be 7 to 10 alphanumeric characters"</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-05</strong></td>
+          <td>Invalid Email Syntax</td>
+          <td><code>ayush_gmail.com</code> (missing @)</td>
+          <td>Displays red border: "Enter a valid email address"</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-06</strong></td>
+          <td>Invalid Phone Number</td>
+          <td><code>5551234567</code> (starts with 5)</td>
+          <td>Displays red border: "Enter valid 10-digit Indian mobile starting with 6-9"</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-07</strong></td>
+          <td>Coupon Code Application</td>
+          <td>Entered <code>STUDENT50</code></td>
+          <td>Applies 50% discount immediately; recalculates total fee in Summary Card</td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td><strong>TC-08</strong></td>
+          <td>LocalStorage Data Persistence</td>
+          <td>Submitted enrollment and refreshed browser page</td>
+          <td>Saved enrollment records reload automatically from <code>localStorage</code></td>
+          <td><span class="badge-pass">PASS</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- Section 5 -->
+    <h2 class="section-title">5. Output Screenshots</h2>
+
+    <p><strong>Screenshot 1: Application Portal Overview &amp; Valid State with Submit Enabled</strong></p>
+    <div class="screenshot-container">
+      <img src="screenshots/screenshot_valid_overview.png" class="report-screenshot" alt="Valid State Overview" onerror="this.style.display='none'; document.getElementById('placeholder1').style.display='block';">
+      <div id="placeholder1" class="screenshot-placeholder">
+        [ Attach Screenshot 1: Portal overview showing all inputs valid, green checkmarks, dynamic course preview, applied coupon, and active Submit button ]
+      </div>
+      <div class="screenshot-caption">Figure 5.1: Valid enrollment application state with green indicators, dynamic fee quotation, and enabled submission</div>
+    </div>
+
+    <p><strong>Screenshot 2: Real-Time Input Validation Error Messages (Invalid Cases)</strong></p>
+    <div class="screenshot-container">
+      <img src="screenshots/screenshot_invalid_errors.png" class="report-screenshot" alt="Validation Errors" onerror="this.style.display='none'; document.getElementById('placeholder2').style.display='block';">
+      <div id="placeholder2" class="screenshot-placeholder">
+        [ Attach Screenshot 2: Real-time red validation highlights and descriptive error messages for invalid name, PRN, email, phone, and disabled submit button ]
+      </div>
+      <div class="screenshot-caption">Figure 5.2: Real-time validation feedback flagging invalid inputs with ruby-red borders and specific error descriptions</div>
+    </div>
+
+    <p><strong>Screenshot 3: Official Confirmation Modal Receipt &amp; Live Deployment</strong></p>
+    <div class="screenshot-container">
+      <img src="screenshots/screenshot_confirmation_modal.png" class="report-screenshot" alt="Confirmation Receipt & Deployment" onerror="this.style.display='none'; document.getElementById('placeholder3').style.display='block';">
+      <div id="placeholder3" class="screenshot-placeholder">
+        [ Attach Screenshot 3: Admission receipt modal displaying Enrollment ID, student summary, print receipt trigger, and live deployed URL in browser bar ]
+      </div>
+      <div class="screenshot-caption">Figure 5.3: Admission receipt confirmation modal and live deployment serving from <code>http://localhost:8081/course-enrollment/</code></div>
+    </div>
+
+    <!-- Section 6 -->
+    <h2 class="section-title">6. Testing and Conclusion</h2>
+    <h3 class="sub-title">6.1 What Works</h3>
+    <ul>
+      <li>Complete client-side course enrollment workflow developed using contemporary React 18 functional components and hooks.</li>
+      <li>Real-time input validation on both <code>onChange</code> and <code>onBlur</code> events with instantaneous visual feedback (green/red borders and icons).</li>
+      <li>Strict submit button disabling ensuring zero invalid submissions can pass through.</li>
+      <li>Dynamic pricing computation with coupon code validation (e.g. <code>STUDENT50</code> saves 50% on tuition).</li>
+      <li>Session persistence using browser <code>localStorage</code> with table directory and record deletion capabilities.</li>
+      <li>Production build verified and deployed on Apache Tomcat with clean configuration for Vercel, Netlify, and GitHub Pages.</li>
+    </ul>
+
+    <h3 class="sub-title">6.2 Limitations</h3>
+    <ul>
+      <li>Client-side data persistence is limited to the local browser instance; enterprise production portals require server-side database integration (e.g. Node.js/Express with MongoDB or PostgreSQL).</li>
+      <li>Payment simulation is executed via simulated client state rather than a live payment gateway webhook (e.g., Razorpay / Stripe).</li>
+    </ul>
+
+    <h3 class="sub-title">6.3 What I Learned</h3>
+    <ul>
+      <li>Mastered the difference between controlled vs. uncontrolled form inputs in React.</li>
+      <li>Understood how to effectively orchestrate <code>useState</code>, <code>useEffect</code>, and <code>useMemo</code> hooks for high-performance form validation without redundant re-renders.</li>
+      <li>Learned to build reusable, accessible UI component wrappers that receive and handle generic props cleanly.</li>
+      <li>Gained practical experience deploying modern Vite React builds across Apache Tomcat and cloud platforms.</li>
+    </ul>
+
+    <!-- Section 7 -->
+    <h2 class="section-title">7. AI Use Declaration (Mandatory Submission Table)</h2>
+    <table class="table-custom">
+      <tr>
+        <td style="width: 35%; font-weight: bold; background: #f8fafc;">AI tool and prompt used</td>
+        <td>
+          <strong>Antigravity AI (Gemini 3.8)</strong><br>
+          <em>Prompt:</em> "Design, develop and deploy an Online Course Enrollment Form using ReactJS functional components and hooks with real-time validation, dynamic fee calculation, and disabled submit button until valid."
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; background: #f8fafc;">One output you checked and how</td>
+        <td>
+          Checked the real-time form validity logic (<code>isFormValid</code> memo) by inspecting whether typing an invalid character in the email or PRN field immediately toggled the submit button state to disabled and back to active when corrected.
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; background: #f8fafc;">One thing you corrected or rejected, and why</td>
+        <td>
+          Corrected the validation behavior so error messages do not aggressively show on fresh, untouched inputs upon initial page load; added a <code>touched</code> state map to only display error messages once a user has interacted with or blurred an input field.
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</body>
+</html>
